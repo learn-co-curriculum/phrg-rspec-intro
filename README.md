@@ -256,7 +256,7 @@ Rspec.desrcibe TShirt do
 end
 ```
 
-This is the best test file yet. Because we are not using `before` nor `let`, we don't need to search around our test examples to figure out what values are in use. We have reduced the cognitive burn of understanding our test code, and thus made them easier to understand and edit/improve as our `TShirt` class evolves.
+This is the best test file yet. Because we are not using `before` nor `let`, we don't need to search around our test examples to figure out what values are in use. We have reduced the cognitive burn of understanding our test code, and thus made them easier to understand and edit/improve as our `TShirt` class evolves. We also quickly understand what are tests do NOT need.
 
 This change did violate one Ruby tenant though. We've actually made the code less DRY (Don't Repeat Yourself) because we have repeated our `valid_attributes` (`{ size: "XS" }`) in the last test. This is a trade-off to this approach to testing. But it is much less of a trade-off compared to the pitfalls of our previous approaches.
 
