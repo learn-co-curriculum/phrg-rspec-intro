@@ -107,8 +107,171 @@ Tire
       resists acid
 ```
 
-
 ## Before vs Let vs Neither
 
+Another convention found in many test files is the use of `before` and `let` blocks to set up test state. Since these are used quite a lot in the learn.co curriculum, lets understand their differences, benefits, and drawbacks.
+
+Here is the [documention on using before & after hooks](https://relishapp.com/rspec/rspec-core/v/3-7/docs/hooks/before-and-after-hooks). And here are the [docs on using `let` and `let!`](https://relishapp.com/rspec/rspec-core/docs/helper-methods/let-and-let).
+
+Let's use creating a valid T-Shirt as an example.
+
+```ruby
+Rspec.desrcibe TShirt do
+  before do
+    @valid_attributes = { size: "XS" }
+    @invalid_attributes = { size: "XXXXXXXXXS"}
+  end
+
+  it "is valid with standard size" do
+    expect(TShirt.new(@valid_attributes)).to be_valid
+  end
+
+  it "is invalid with too small a size" do
+    expect(TShirt.new(@invalid_attributes)).to_not be_valid
+  end
+
+  context "other stuff" do
+    # some other tests
+  end
+end
+```
+
+The `before` method takes an optional argument of a symbol for how often the its code will run. `before(:each)` and `before(:all)` are two examples. In the snippet above, no argument is specified, so `before` defaults to `:each`, which means the code will run before every `it` block.
+
+While the snippet above looks appealing in some ways, there is actually a lot of extra code getting run. Not only will `@valid_attributes` and `@invalid_attributes` be assigned a value for both of our tests, but they will also be assigned for all the tests in the `"other stuff"` context. Those variable assignments are unnecessary as we keep adding tests, and so it will slow down our test run cycle. This is not a example use for `before`.
+
+
+```ruby
+Rspec.desrcibe TShirt do
+  let(:valid_attributes) do
+    { size: "XS" }
+  end
+
+  let(:invalid_attributes) do
+    { size: "XXXXXXXXXS" }
+  end
+
+  it "is valid with standard size" do
+    expect(TShirt.new(valid_attributes)).to be_valid
+  end
+
+  it "is invalid with too small a size" do
+    expect(TShirt.new(invalid_attributes)).to_not be_valid
+  end
+
+  context "other stuff" do
+    # some other tests
+  end
+end
+```
+
+Here is a similar approach, but using `let`. `let` takes a symbol and a block of code, and it executes lazily. Meaning, only if you invoke the `let` by using its symbol like a method invocation will the code inside the `let` be run. This is a much better approach than `before`. The `"is valid with standard size"` test only creates `valid_attributes`, the `"is invalid with too small a size"` only creates `invalid_attributes`, and whatever tests in `"other stuff"` are not invoking this code at all. We also don't need to use instance variables. Wonderful!
+
+But wait. What happens as our test file grows.
+
+```ruby
+Rspec.desrcibe TShirt do
+  let(:valid_attributes) do
+    { size: "XS" }
+  end
+
+  let(:invalid_attributes) do
+    { size: "XXXXXXXXXS" }
+  end
+
+  it "is valid with standard size" do
+    expect(TShirt.new(valid_attributes)).to be_valid
+  end
+
+  it "is invalid with too small a size" do
+    expect(TShirt.new(invalid_attributes)).to_not be_valid
+  end
+
+  context "color" do
+    let(:valid_attributes) do
+      { color: "green", size: "XS" }
+    end
+
+    let(:invalid_attributes) do
+      { color: "transparent", size: "XS" }
+    end
+
+    it "is valid with acceptable color" do
+      expect(TShirt.new(valid_attributes)).to be_valid
+    end
+
+    it "is invalid with unacceptable color" do
+      expect(TShirt.new(invalid_attributes)).to_not be_valid
+    end
+
+    # more tests, with the possibility of more and more tests as time goes on
+  end
+
+  it "can be ripped" do
+    shirt = TShirt.new(valid_attriubtes)
+    expect(shirt.rip!).to eq("Oh no! I'm torn!")
+  end
+
+  # yep... many many more tests
+end
+```
+
+Hmmmm. The last snippet is a very realistic example of many test files in the Ruby universe. The `let`s inside the `"color"` context use identical symbols to define their code. The tests below it use the first `valid` and `invalid` `attributes` definition they find, so that means the ones in the "color" scope.
+
+In this very simple example, this may seem straight ahead. However, most real world test files are much larger and much more complex. They may juggle quite a number of scenarios to test `TShirt`. And what about that "rip" test? What attributes is it using? Why do I have to scan the entire content of the test file to write a test for a ripped TShirt?
+
+### The better alternative
+
+Let's not use these `rspec` helper methods and give this another try.
+
+
+```ruby
+Rspec.desrcibe TShirt do
+  it "is valid with standard size" do
+    expect(TShirt.new({ size: "XS" })).to be_valid
+  end
+
+  it "is invalid with too small a size" do
+    expect(TShirt.new({ size: "XXXXXXXXXS" })).to_not be_valid
+  end
+
+  context "color" do
+    it "is valid with acceptable color" do
+      expect(TShirt.new({ color: "green", size: "XS" })).to be_valid
+    end
+
+    it "is invalid with unacceptable color" do
+      expect(TShirt.new({ color: "transparent", size: "XS" })).to_not be_valid
+    end
+
+    # more tests
+  end
+
+  it "can be ripped" do
+    shirt = TShirt.new({ size: "XS" })
+    expect(shirt.rip!).to eq("Oh no! I'm torn!")
+  end
+
+  # more tests
+end
+```
+
+This is the best test file yet. Because we are not using `before` nor `let`, we don't need to search around our test examples to figure out what values are in use. We have reduced the cognitive burn of understanding our test code, and thus made them easier to understand and edit/improve as our `TShirt` class evolves.
+
+This change did violate one Ruby tenant though. We've actually made the code less DRY (Don't Repeat Yourself) because we have repeated our `valid_attributes` (`{ size: "XS" }`) in the last test. This is a trade-off to this approach to testing. But it is much less of a trade-off compared to the pitfalls of our previous approaches.
+
+Nitro tests suffer greatly from issues of over using `before` and `let` helper methods. As do some learn.co labs. Understanding these method drawbacks puts you a fantastic position to help Nitro clean up its tests.
 
 ## Many Features - What is Important
+
+`rspec` has quite a lot of [features and helper methods](https://relishapp.com/rspec/rspec-core/v/3-7/docs). Many of them are very convenient, and many are helpful. But worrying too much about the "syntactic sugar" around your tests is not the point. What makes good tests?
+
+As you gain experience, you will form your own opinions on what kind of tests provide the most value. Here are some questions to keep in mind as you start writing your own tests:
+
+* Is the intent of my test clear?
+* Am I coding only what is necessary for my test?
+* Does my test enforce expectations that must stay intact?
+
+Many developers have the mind set that simply having any tests is a step in the right direction. And they are right :).
+
+Use examples of you've seen in the past, and the guidance of your fellow Power developers as you continue to learn.
