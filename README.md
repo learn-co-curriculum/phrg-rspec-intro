@@ -1,4 +1,4 @@
-# Rspec
+# Rspec Mechanics
 
 At this point, you are very familiar with how an `rspec` test file appears. You've had to diagnosis them, drop breakpoints inside them, and perhaps even modified them.
 
