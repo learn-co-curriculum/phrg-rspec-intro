@@ -8,7 +8,7 @@ First take note that test file naming follow a distinct convention. Each file ma
 
 One important item to remember is that the `rspec` API is just plain Ruby. Some of its syntax appears different what we are used to, but these unusual looking styles are really just Ruby.
 
-## Test suite layout
+## Test Suite Layout
 
 Looking at the top of a spec file, you've probably noticed this line:
 
@@ -70,7 +70,7 @@ In the example above, a section of our `Tire` tests groups testing how it "repel
 
 Later on, there will be tests concerning `Tire` tread. Since that does not have to do with repeling liquid, it is not in the same scope.
 
-## It blocks
+## It Blocks
 
 Rspec uses an `it` method to signify the place where actual tests go. `it` takes a description string and a block of test code.
 
@@ -108,7 +108,7 @@ Tire
 ```
 
 
-## Before vs. Let vs. Neither
+## Before vs Let vs Neither
 
 
-## A lot of features - So what is important
+## Many Features - What is Important
