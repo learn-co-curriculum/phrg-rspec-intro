@@ -1,12 +1,10 @@
 # Rspec Mechanics
 
-At this point, you are very familiar with how an `rspec` test file appears. You've had to diagnosis them, drop breakpoints inside them, and perhaps even modified them.
+At this point, you are familiar with how spec test file looks. You have had to diagnosis them, drop breakpoints inside them, and perhaps even modified a test. Before we start writing our very `rspec` tests, let's pick apart the elements we have been seen.
 
-Before we start writing our rspec tests, let's pick apart the elements we have been seeing in our labs.
+Take note that test file naming follows a distinct convention. Each file typically maps to just one other class, or file. So if we have a `tire.rb` that defines a `Tire` class, the corresponding test file would be named `tire_spec.rb`, and be located in the `spec` directory.
 
-First take note that test file naming follow a distinct convention. Each file maps to just one other class, which typically means just one other file. So if we have a `tire.rb` with a `Pants` class in our application, the corresponding test file would be called `tire_spec.rb`, and be located in the `spec` directory.
-
-One important item to remember is that the `rspec` API is just plain Ruby. Some of its syntax appears different what we are used to, but these unusual looking styles are really just Ruby.
+As we explore `rspec` syntax, remember that its API is written in plain old Ruby. The files appear different what we are used to, but its just Ruby methods taking arguements in different formats. There is no magic in the `rspec` library.
 
 ## Test Suite Layout
 
