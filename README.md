@@ -93,7 +93,7 @@ it "is the first name for the person" do
 ...
 ```
 
-Tests in RSpec are called examples. They are declared with an `it` method. Here we are passing in a string `"is the first name for the person"` to describe what this example is expecting and verifying. The `it` method takes a block, this will be executed with the block runs.
+Tests in RSpec are called examples. They are declared with an `it` method. Here we are passing in a string `"is the first name for the person"` to describe the expected behavior of the interaction under test. The `it` method takes a block. The block defines the code which is executed when RSpec 'runs the example'. This code exercise the and verifies expectation stated in the example's description
 
 # Expectations and Matchers
 
