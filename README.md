@@ -35,7 +35,6 @@ RSpec.describe Person, type: :model do
   end
 end
 ```
->>>>>>> WIP
 
 Lets zoom in and take a look at some of the parts one by one.
 
