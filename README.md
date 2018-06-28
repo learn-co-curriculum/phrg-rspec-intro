@@ -132,7 +132,7 @@ You can see we have a object being created with the `expect` method. This takes 
 
 # File Naming Conventions
 
-It is best to end a spec file with `_spec.rb`, and to place it under the `spec` directory. This will make RSpec identify it, and make running it easier. There are some other conventions related to naming and location that are good to keep in mind. If the above `Person` was a file in a Ruby Gem type project and lived under `lib/gem_name/person.rb` folder, a good place to put this `Person` spec would be `spec/person_spec.rb`. If this was a Rails app, and the `Person` was a file that lived in `app/modles/person.rb`, a good place for this file would be `spec/modles/person_spec.rb`.
+It is best to end a spec file with `_spec.rb`, and to place it under the `spec` directory. This will make RSpec, and tools we use to develop, identify it, and make running it easier. There are some other conventions related to naming and location that are good to keep in mind. If the above `Person` was a file in a Ruby Gem type project and lived under `lib/gem_name/person.rb` folder, a good place to put this `Person` spec would be `spec/person_spec.rb`. If this was a Rails app, and the `Person` was a file that lived in `app/modles/person.rb`, a good place for this file would be `spec/modles/person_spec.rb`.
 
 
 # RSpec Output
