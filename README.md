@@ -46,7 +46,7 @@ require "spec_helper"
 ...
 ```
 
-It is common to configure RSpec to suite the needs and preferences of the project. It is very common to see a spec start off with a line that requires a RSpec helper file. This will usually be `require "spec_helper"` or `require "rails_helper"`. To learn more about [RSpec configuration options read the RSpec documentation](https://relishapp.com/rspec/rspec-core/v/3-7/docs/configuration).
+It is common to configure RSpec to suit the needs and preferences of the project. It is very common to see a spec start off with a line that requires a RSpec helper file. This will usually be `require "spec_helper"` or `require "rails_helper"`. To learn more about [RSpec configuration options read the RSpec documentation](https://relishapp.com/rspec/rspec-core/v/3-7/docs/configuration).
 
 # Example Groups
 
