@@ -1,6 +1,6 @@
 # RSpec Anatomy
 
-At this point, you are familiar with how spec test file looks. You have had to diagnosis them, drop breakpoints inside them, and even modified a test. Before we start writing our very `rspec` tests, let's pick apart the elements we have seen.
+At this point, you are familiar with how spec test file looks. You have had to diagnosis them, drop breakpoints inside them, and even modified a test. Before we start writing our own `rspec` tests, let's pick apart the elements we have seen.
 
 ![RSpec Anatomy](images/rspec-anatomy.jpg?raw=true)
 
