@@ -1,98 +1,141 @@
-# Rspec Mechanics
+# RSpec Anatomy
 
-At this point, you are familiar with how spec test file looks. You have had to diagnosis them, drop breakpoints inside them, and perhaps even modified a test. Before we start writing our very `rspec` tests, let's pick apart the elements we have been seen.
+At this point, you are familiar with how spec test file looks. You have had to diagnosis them, drop breakpoints inside them, and even modified a test. Before we start writing our own `rspec` tests, let's pick apart the elements we have seen.
 
-Take note that test file naming follows a distinct convention. Each file typically maps to just one other class, or file. So if we have a `tire.rb` that defines a `Tire` class, the corresponding test file would be named `tire_spec.rb`, and be located in the `spec` directory.
+![RSpec Anatomy](images/rspec-anatomy.jpg?raw=true)
 
-As we explore `rspec` syntax, remember that its API is written in plain old Ruby. The files appear different what we are used to, but its just Ruby methods taking arguements in different formats. There is no magic in the `rspec` library.
-
-## Test Suite Layout
-
-Looking at the top of a spec file, you've probably noticed this line:
-
-```ruby
-require "spec_helper"
-```
-
-The `spec_helper.rb` is the central configuration file for `rspec`. It is a file that handles requiring all the necessary files in the application, additional testing libraries, and also serves as the central place extending configuration directly into `rspec`.
-
-There's no reason to get into how this file works right now. Just know its there, setting up your ability to use the `rspec` command in your shell.
-
-As you move into Rails, you'll see this line change to `require "rails_helper"`. That's because Rails adds more configuration into our test files. However, the `spec_helper.rb` file still exists, and gets required inside the `rails_helper.rb`.
-
-Spec files typically start by opening up one big `describe` block:
+RSpec is a big framework. It is a hosted Domain Specific Language (DSL) for testing. Even though it might not always look like it, RSpec code is Ruby. RSpec leverages the syntax and language features of Ruby to provide a specialized language for writing tests. Here we are going to intorduce the different parts of a RSpec test file. For this introduction we are going to look at an example:
 
 ```ruby
 require "spec_helper"
 
-Rspec.describe Tire do
+RSpec.describe Person, type: :model do
+  describe "#first_name" do
+    it "is the first name for the person" do
+      person = described_class.new(first_name: "Expected First Name")
 
-end
-```
-
-This first line is just a Ruby method that takes the name of the class you will be testing, and a second argument of a block of code (do/end).
-
-## Describe and Context
-
-Rspec provides a great way to allow your test code to serve as documentation. The `describe` and `context` methods help by taking 2 arguments. First argument is a string that should identify what you are testing. And the second is a block that contains tests, or more descriptions that contain tests.
-
-These methods do not trigger a test themselves. Instead, they give form to the test file. Providing a layout for what our tests do.
-
-`describe` and `context` perform the exact same way. So why have two methods that do the same thing? Well, our tests are semantic, or "relating to meaning in language". So how we may use the words "context" and "describe" in real life will influence how we group our tests.
-
-```ruby
-require "spec_helper"
-
-Rspec.describe Tire do
-  describe "repels liquid" do
-    context "on short trips" do
-      # some tests
-    end
-
-    context "on long trip" do
-      # some tests
-    end
-
-    context "in rain storms" do
-      # some tests
+      expect(person.first_name).to eq("Expected First Name")
     end
   end
 
-  describe "has tread" do
-    # some tests
+  describe "#first_name" do
+    it "is the first name for the person" do
+      person = described_class.new(last_name: "Expected Last Name")
+
+      expect(person.last_name).to eq("Expected Last Name")
+    end
+  end
+
+  describe "#full_name" do
+    it "is the first name followed the last name for the person" do
+      person = described_class.new(first_name: "Expected First Name" last_name: "Expected Last Name")
+
+      expect(person.last_name).to eq("Expected First Name Expected Last Name")
+    end
   end
 end
 ```
 
-In the example above, a section of our `Tire` tests groups testing how it "repels liquid" with `describe`. Within that scope, there will be tests concerned with "short trips", "long trips", and "in rain storms", grouped using `context`.
+Lets zoom in and take a look at some of the parts one by one.
 
-Later on, there will be tests concerning `Tire` tread. Since that does not have to do with repeling liquid, it is not in the same scope.
-
-## It Blocks
-
-Rspec uses an `it` method to signify the place where actual tests go. `it` takes a description string and a block of test code.
+# Spec Helper
 
 ```ruby
-Rspec.describe Tire do
-  describe "repels liquid" do
-    # ...
+require "spec_helper"
 
-    context "in rain storms" do
-      it "resists water" do
-        expect(Tire.new.through_rainstorm).to eq("Repelled water!")
-      end
-
-      it "resists mud" do
-        expect(Tire.new.through_muddy_rainstorm).to eq("Repelled mud!")
-      end
-
-      it "resists acid" do
-        expect(Tire.new.through_acid_rainstorm).to eq("Repelled acid!")
-      end
-    end
-
-  # ...
+...
 ```
+
+It is common to configure RSpec to suit the needs and preferences of the project. It is very common to see a spec start off with a line that requires a RSpec helper file. This will usually be `require "spec_helper"` or `require "rails_helper"`. To learn more about [RSpec configuration options read the RSpec documentation](https://relishapp.com/rspec/rspec-core/v/3-7/docs/configuration).
+
+# Example Groups
+
+```ruby
+...
+
+RSpec.describe Person, type: :model do
+  describe "#first_name" do
+    it "is the first name for the person" do
+      person = described_class.new(first_name: "Expected First Name")
+
+      expect(person.first_name).to eq("Expected First Name")
+    end
+  end
+
+  ...
+```
+
+Lets zoom in the first line of this, and brake down what is going on.
+
+```ruby
+RSpec.describe Person, type: :model do
+```
+
+This is a [Example Group definition](https://relishapp.com/rspec/rspec-core/v/3-7/docs/example-groups/basic-structure-describe-it). In RSpec our tests are called examples, and we group them together using an example group. The top most example group definition gets prefixed with `RSpec`. Here we are defining a example group that describes the `Person` object as the subject. You will often also see a descriptive string used as the value for the subject. We are passing [meta data](https://relishapp.com/rspec/rspec-core/v/3-7/docs/metadata) to the example group here. This lets us provide extra configuration for this example group. The meta data is not required, and addition meta data could be assigned. We pass a block to the example group. This block will contain examples and or more example groups. RSpec provides a `context` method that lets us do the same thing as `descirbe`. `context is an alias for `describe`.
+
+```ruby
+...
+
+describe "#first_name" do
+
+...
+```
+
+Here we see a describe with a string. This creates an example group for the `first_name` instance method on the Person object. It is convention to describe instance methods by prefixing the method name with a `#`. To describe a class method convention dictates prefixing with a `.`. There will be times when you are creating an example group that does not describe a method. In those causes the subject will be a descriptive string.
+
+# Examples
+
+```ruby
+...
+
+it "is the first name for the person" do
+
+...
+```
+
+Tests in RSpec are called examples. They are declared with an `it` method. Here we are passing in a string `"is the first name for the person"` to describe the expected behavior of the interaction under test. The `it` method takes a block. The block defines the code which is executed when RSpec 'runs the example'. This code exercise the and verifies expectation stated in the example's description
+
+# Expectations and Matchers
+
+```
+...
+
+expect(person.first_name).to eq("Expected First Name")
+
+...
+```
+
+Expectations are the part of an example the verifies code has the expected behavior. Here was are saying we expect the value returned by sending the message `first_name` to the `person` object, to return an object that is equal to the string `"Expected First Name"`. There is a lot going on here, and the syntax used is hiding some of the details. Lets take a look at what this method is doing with the missing syntax add back in:
+
+```ruby
+expect(person.first_name).to(eq("Expected First Name"))
+```
+
+We could further expand this to:
+
+```ruby
+# Capture the value returned by sending person the first_name message
+returned_first_name = person.first_name
+
+# Define a expectation object that we can make expectations of
+expectation_object = expect(returned_first_name)
+
+# Define a matcher for comparing the returned_first_name value
+matcher = eq("Expected First Name")
+
+
+# Put it all together, and make the expectation
+expectation_object.to(matcher)
+```
+
+You can see we have a object being created with the `expect` method. This takes a value, and lets us then make expectations on the value it contains. Next we define a matcher. The matcher is sent to the expectation object via the `to` method, and the expectation object then check if the matcher holds true. If it does, the expectation passes, if it does not, the test will fail. You can read more about the built in [expectation and matching library of RSpec here](https://relishapp.com/rspec/rspec-expectations/docs).
+
+# File Naming Conventions
+
+It is best to end a spec file with `_spec.rb`, and to place it under the `spec` directory. This will make RSpec, and tools we use to develop, identify it, and make running it easier. There are some other conventions related to naming and location that are good to keep in mind. If the above `Person` was a file in a Ruby Gem type project and lived under `lib/gem_name/person.rb` folder, a good place to put this `Person` spec would be `spec/person_spec.rb`. If this was a Rails app, and the `Person` was a file that lived in `app/modles/person.rb`, a good place for this file would be `spec/modles/person_spec.rb`.
+
+
+# RSpec Output
 
 Running `rspec` on this test file produces a breakdown of the `describe`, `context`, and `it` strings:
 
@@ -254,22 +297,49 @@ Rspec.desrcibe TShirt do
 end
 ```
 
-This is the best test file yet. Because we are not using `before` nor `let`, we don't need to search around our test examples to figure out what values are in use. We have reduced the cognitive burn of understanding our test code, and thus made them easier to understand and edit/improve as our `TShirt` class evolves. We also quickly understand what are tests do NOT need.
+This is the best test file yet. Because we are not using `before` nor `let`, we don't need to search around our test examples to figure out what values are in use. We have reduced the cognitive burn of understanding our test code, and thus made them easier to understand and edit/improve as our `TShirt` class evolves. We also quickly understand what are tests do NOT need. `before` and `let` can easily lead to the testing [Obscure Test](http://xunitpatterns.com/Obscure%20Test.html), [Fragile Test](http://xunitpatterns.com/Fragile%20Test.html#Fragile%20Fixture), and Slow Tests](http://xunitpatterns.com/Slow%20Tests.html) testing smells. Avoiding `before` and `let` can help us avoid these smells.
 
-This change did violate one Ruby tenant though. We've actually made the code less DRY (Don't Repeat Yourself) because we have repeated our `valid_attributes` (`{ size: "XS" }`) in the last test. This is a trade-off to this approach to testing. But it is much less of a trade-off compared to the pitfalls of our previous approaches.
+Nitro tests suffer greatly from issues of over using `before` and `let` helper methods. As do some learn.co labs. Understanding these method drawbacks puts you a fantastic position to help Nitro clean up its tests. To learn more about why `before` and `let` should be avoided, [read this](https://robots.thoughtbot.com/lets-not).
 
-Nitro tests suffer greatly from issues of over using `before` and `let` helper methods. As do some learn.co labs. Understanding these method drawbacks puts you a fantastic position to help Nitro clean up its tests.
+# Example structure
 
-## Many Features - What is Important
+When we write examples, we should try to structure the example so it tells a story. Good testing stories take this form:
 
-`rspec` has quite a lot of [features and helper methods](https://relishapp.com/rspec/rspec-core/v/3-7/docs). Many of them are very convenient, and many are helpful. But worrying too much about the "syntactic sugar" around your tests is not the point. What makes good tests?
+1. Setup
+1. Exercise
+1. Verify
+1. Teardown
+
+Or:
+
+1. Setup
+1. Exercise / Verify
+1. Teardown
+
+In a language like Ruby we can usually ignore Teardown. So lets just focus on Setup, Exercise, and Teardown. This is called a [Four-Phase Test and can be read about here](https://robots.thoughtbot.com/four-phase-test).
+
+## Setup
+
+This is where we create the testing fixtures and setup the system under test.
+
+## Exercise
+
+Use and exercise the system under test.
+
+## Verify
+
+Verify that the exercise step produced the expected behavior.
+
+# Many Features - What is Important
+
+`rspec` has quite a lot of features and helper methods. Many of them are very convenient, and many are helpful. But worrying too much about the "syntactic sugar" around your tests is not the point. What makes good tests?
 
 As you gain experience, you will form your own opinions on what kind of tests provide the most value. Here are some questions to keep in mind as you start writing your own tests:
 
-* Is the intent of my test clear?
+* Is the intent of my test clear? What is my subject? What am I describing, and how am I verifying that?
 * Am I coding only what is necessary for my test?
 * Does my test enforce expectations that must stay intact?
 
-Many developers have the mind set that simply having any tests is a step in the right direction. And they are right :).
+Many developers have the mind set that simply having any tests is a step in the right direction. The is wishful thinking. A poorly written can be slow, and brittle, and it might not verify what it says it will. The best way to learn what is the right test and how to wright them is to start trying it.
 
 Use examples of you've seen in the past, and the guidance of your fellow Power developers as you continue to learn.
