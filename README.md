@@ -107,21 +107,20 @@ expectation_object = expect(returned_first_name)
 # Define a matcher for comparing the returned_first_name value
 matcher = eq("Expected First Name")
 
-
 # Put it all together, and make the expectation
 expectation_object.to(matcher)
 ```
 
 You can see we have a object being created with the `expect` method. This takes a value, and lets us then make expectations on the value it contains. Next we define a matcher. The matcher is sent to the expectation object via the `to` method, and the expectation object then check if the matcher holds true. If it does, the expectation passes, if it does not, the test will fail. You can read more about the built in [expectation and matching library of RSpec here](https://relishapp.com/rspec/rspec-expectations/docs).
 
-# File Naming Conventions
+## File Naming Conventions
 
 It is best to end a spec file with `_spec.rb`, and to place it under the `spec` directory. This will make RSpec, and tools we use to develop, identify it, and make running it easier. There are some other conventions related to naming and location that are good to keep in mind. If the above `Person` was a file in a Ruby Gem type project and lived under `lib/gem_name/person.rb` folder, a good place to put this `Person` spec would be `spec/person_spec.rb`. If this was a Rails app, and the `Person` was a file that lived in `app/modles/person.rb`, a good place for this file would be `spec/modles/person_spec.rb`.
 
 
-# RSpec Output
+## RSpec Output
 
-Running `rspec` on this test file produces a breakdown of the `describe` and `it` strings:
+Running `rspec` on this test file produces a breakdown of the `describe`, `context`, and `it` descriptions:
 
 ```
 Person
@@ -286,7 +285,7 @@ This is the best test file yet. Because we are not using `before` nor `let`, we 
 
 Nitro tests suffer greatly from issues of over using `before` and `let` helper methods. As do some learn.co labs. Understanding these method drawbacks puts you a fantastic position to help Nitro clean up its tests. To learn more about why `before` and `let` should be avoided, [read this](https://robots.thoughtbot.com/lets-not).
 
-# Example structure
+## Example structure
 
 When we write examples, we should try to structure the example so it tells a story. Good testing stories take this form:
 
@@ -303,19 +302,19 @@ Or:
 
 In a language like Ruby we can usually ignore Teardown. So lets just focus on Setup, Exercise, and Teardown. This is called a [Four-Phase Test and can be read about here](https://robots.thoughtbot.com/four-phase-test).
 
-## Setup
+### Setup
 
 This is where we create the testing fixtures and setup the system under test.
 
-## Exercise
+### Exercise
 
 Use and exercise the system under test.
 
-## Verify
+### Verify
 
 Verify that the exercise step produced the expected behavior.
 
-# Many Features - What is Important
+## Many Features - What is Important
 
 `rspec` has quite a lot of features and helper methods. Many of them are very convenient, and many are helpful. But worrying too much about the "syntactic sugar" around your tests is not the point. What makes good tests?
 
