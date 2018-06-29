@@ -18,7 +18,7 @@ RSpec.describe Person, type: :model do
     end
   end
 
-  describe "#first_name" do
+  describe "#last_name" do
     it "is the first name for the person" do
       person = described_class.new(last_name: "Expected Last Name")
 
