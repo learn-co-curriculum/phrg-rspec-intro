@@ -321,4 +321,6 @@ As you gain experience, you will form your own opinions on what kind of tests pr
 * Am I coding only what is necessary for my test?
 * Does my test enforce expectations that must stay intact?
 
-Many developers have the mind set that simply having any tests in their project is a step in the right direction. This can be wishful thinking. A poorly written test suite may be slow, and/or brittle, and it might not verify what it says it will. The best way to learn about testing is to jump in and start creating your own spec files. Use examples you've seen in the past, and the guidance of your fellow Power developers as you continue to learn.
+Many developers have the mind set that simply having any tests in their project is a step in the right direction. And they are generally right! But, a poorly written test suite may be slow, and/or brittle, and it might not verify everything it implies. 
+
+The best way to learn about testing is to jump in and start creating your own spec files. Use examples you've seen in the past, and the guidance of your fellow Power developers as you continue to learn.
