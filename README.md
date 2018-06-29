@@ -2,7 +2,7 @@
 
 At this point, you are familiar with how spec test file looks. You have had to diagnosis them, drop breakpoints inside them, and even modified a test. Before we start writing our own `rspec` tests, let's pick apart the elements we have seen.
 
-![RSpec Anatomy](images/rspec-anatomy.jpg?raw=true)
+![RSpec Anatomy](https://raw.githubusercontent.com/powerhome/phrg-rspec-intro/master/rspec-anatomy.jpg?raw=true "RSpec Anatomy")
 
 RSpec is a big framework. It is a hosted Domain Specific Language (DSL) for testing. Even though it might not always look like it, RSpec code is Ruby. RSpec leverages the syntax and language features of Ruby to provide a specialized language for writing tests. Here we are going to intorduce the different parts of a RSpec test file. For this introduction we are going to look at an example:
 
