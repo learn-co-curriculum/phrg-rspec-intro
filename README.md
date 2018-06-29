@@ -303,7 +303,7 @@ Or:
 
 This is called a [Four-Phase Test and can be read about here](https://robots.thoughtbot.com/four-phase-test).
 
-* Setup - Create testing fixtures and setup the system under test.
+* Setup - Prepare the system to test our scenario. Typically this requires us to setup an object(s)'s state so we may make assertions about the behavior we intend to test.
 
 * Exercise - Use and exercise the system under test.
 
@@ -321,6 +321,4 @@ As you gain experience, you will form your own opinions on what kind of tests pr
 * Am I coding only what is necessary for my test?
 * Does my test enforce expectations that must stay intact?
 
-Many developers have the mind set that simply having any tests is a step in the right direction. This is wishful thinking. A poorly written can be slow, and brittle, and it might not verify what it says it will. The best way to learn what is the right test and how to wright them is to start trying it.
-
-Use examples of you've seen in the past, and the guidance of your fellow Power developers as you continue to learn.
+Many developers have the mind set that simply having any tests in their project is a step in the right direction. This can be wishful thinking. A poorly written test suite may be slow, and/or brittle, and it might not verify what it says it will. The best way to learn about testing is to jump in and start creating your own spec files. Use examples you've seen in the past, and the guidance of your fellow Power developers as you continue to learn.
