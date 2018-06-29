@@ -89,7 +89,7 @@ Tests in RSpec are called examples. They are declared with an `it` method. Here 
 expect(person.first_name).to eq("Expected First Name")
 ```
 
-Expectations are the part of an example the verifies code has the expected behavior. Here was are saying we expect the value returned by sending the message `first_name` to the `person` object, to return an object that is equal to the string `"Expected First Name"`. There is a lot going on here, and the syntax used is hiding some of the details. Lets take a look at what this method is doing with the missing syntax add back in:
+Expectations are the parts of an example that verifies code has the correct behavior. Here was are saying we expect the value returned by sending the message `first_name` to the `person` object, to return an object that is equal to the string `"Expected First Name"`. There is a lot going on here, and the syntax used is hiding some of the details. Lets take a look at what this method is doing with the missing syntax add back in:
 
 ```ruby
 expect(person.first_name).to(eq("Expected First Name"))
@@ -111,12 +111,11 @@ matcher = eq("Expected First Name")
 expectation_object.to(matcher)
 ```
 
-You can see we have a object being created with the `expect` method. This takes a value, and lets us then make expectations on the value it contains. Next we define a matcher. The matcher is sent to the expectation object via the `to` method, and the expectation object then check if the matcher holds true. If it does, the expectation passes, if it does not, the test will fail. You can read more about the built in [expectation and matching library of RSpec here](https://relishapp.com/rspec/rspec-expectations/docs).
+You can see we have a object being created with the `expect` method. This takes a value, and lets us then make expectations on the value it contains. Next we define a matcher. The matcher is sent to the `expectation_object` via the `to` method, and the `expectation_object` checks if the matcher holds true. If it does, the expectation passes. If it doesn't, the test fails. You can read more about the built in [expectation and matching library of RSpec here](https://relishapp.com/rspec/rspec-expectations/docs).
 
 ## File Naming Conventions
 
 It is best to end a spec file with `_spec.rb`, and to place it under the `spec` directory. This will make RSpec, and tools we use to develop, identify it, and make running it easier. There are some other conventions related to naming and location that are good to keep in mind. If the above `Person` was a file in a Ruby Gem type project and lived under `lib/gem_name/person.rb` folder, a good place to put this `Person` spec would be `spec/person_spec.rb`. If this was a Rails app, and the `Person` was a file that lived in `app/modles/person.rb`, a good place for this file would be `spec/modles/person_spec.rb`.
-
 
 ## RSpec Output
 
@@ -251,7 +250,7 @@ Let's not use these `rspec` helper methods and give this another try.
 
 
 ```ruby
-Rspec.desrcibe TShirt do
+Rspec.describe TShirt do
   it "is valid with standard size" do
     expect(TShirt.new({ size: "XS" })).to be_valid
   end
@@ -324,6 +323,6 @@ As you gain experience, you will form your own opinions on what kind of tests pr
 * Am I coding only what is necessary for my test?
 * Does my test enforce expectations that must stay intact?
 
-Many developers have the mind set that simply having any tests is a step in the right direction. The is wishful thinking. A poorly written can be slow, and brittle, and it might not verify what it says it will. The best way to learn what is the right test and how to wright them is to start trying it.
+Many developers have the mind set that simply having any tests is a step in the right direction. This is wishful thinking. A poorly written can be slow, and brittle, and it might not verify what it says it will. The best way to learn what is the right test and how to wright them is to start trying it.
 
 Use examples of you've seen in the past, and the guidance of your fellow Power developers as you continue to learn.
