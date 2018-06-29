@@ -19,7 +19,7 @@ RSpec.describe Person, type: :model do
   end
 
   describe "#last_name" do
-    it "is the first name for the person" do
+    it "is the last name for the person" do
       person = described_class.new(last_name: "Expected Last Name")
 
       expect(person.last_name).to eq("Expected Last Name")
@@ -71,7 +71,7 @@ Lets zoom in the first line of this, and brake down what is going on.
 RSpec.describe Person, type: :model do
 ```
 
-This is a [Example Group definition](https://relishapp.com/rspec/rspec-core/v/3-7/docs/example-groups/basic-structure-describe-it). In RSpec our tests are called examples, and we group them together using an example group. The top most example group definition gets prefixed with `RSpec`. Here we are defining a example group that describes the `Person` object as the subject. You will often also see a descriptive string used as the value for the subject. We are passing [meta data](https://relishapp.com/rspec/rspec-core/v/3-7/docs/metadata) to the example group here. This lets us provide extra configuration for this example group. The meta data is not required, and addition meta data could be assigned. We pass a block to the example group. This block will contain examples and or more example groups. RSpec provides a `context` method that lets us do the same thing as `descirbe`. `context is an alias for `describe`.
+This is a [Example Group definition](https://relishapp.com/rspec/rspec-core/v/3-7/docs/example-groups/basic-structure-describe-it). In RSpec our tests are called examples, and we group them together using an example group. The top most example group definition gets prefixed with `RSpec`. Here we are defining a example group that describes the `Person` object as the subject. You will often also see a descriptive string used as the value for the subject. We are passing [meta data](https://relishapp.com/rspec/rspec-core/v/3-7/docs/metadata) to the example group here. This lets us provide extra configuration for this example group. The meta data is not required, and addition meta data could be assigned. We pass a block to the example group. This block will contain examples and or more example groups. RSpec provides a `context` method that lets us do the same thing as `describe`. `context is an alias for `describe`.
 
 ```ruby
 ...
@@ -137,15 +137,16 @@ It is best to end a spec file with `_spec.rb`, and to place it under the `spec` 
 
 # RSpec Output
 
-Running `rspec` on this test file produces a breakdown of the `describe`, `context`, and `it` strings:
+Running `rspec` on this test file produces a breakdown of the `describe` and `it` strings:
 
 ```
-Tire
-  repels liquid
-    in rain storms
-      resists water
-      resists mud
-      resists acid
+Person
+  #first_name
+    is the first name for the person
+  #last_name
+    is the last name for the person
+  #full_name
+    is the first name followed the last name for the person
 ```
 
 ## Before vs Let vs Neither
