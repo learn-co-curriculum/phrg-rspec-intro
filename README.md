@@ -115,7 +115,7 @@ You can see we have a object being created with the `expect` method. This takes 
 
 ## File Naming Conventions
 
-It is best to end a spec file with `_spec.rb`, and to place it under the `spec` directory. This will make RSpec, and tools we use to develop, identify it, and make running it easier. There are some other conventions related to naming and location that are good to keep in mind. If the above `Person` was a file in a Ruby Gem type project and lived under `lib/gem_name/person.rb` folder, a good place to put this `Person` spec would be `spec/person_spec.rb`. If this was a Rails app, and the `Person` was a file that lived in `app/modles/person.rb`, a good place for this file would be `spec/modles/person_spec.rb`.
+It is best to end a spec file with `_spec.rb`, and to place it under the `spec` directory. This is a convention of RSpec, and how it comes configured out of the box. There are some other conventions related to naming and location that are good to keep in mind. If the above `Person` was a file in a Ruby Gem type project and lived at `lib/gem_name/person.rb`, a good place to put this `Person` spec would be `spec/person_spec.rb`. If this was a Rails app, and the `Person` was a file that lived in `app/models/person.rb`, then a good place for this would be `spec/models/person_spec.rb`.
 
 ## RSpec Output
 
@@ -280,9 +280,11 @@ Rspec.describe TShirt do
 end
 ```
 
-This is the best test file yet. Because we are not using `before` nor `let`, we don't need to search around our test examples to figure out what values are in use. We have reduced the cognitive burn of understanding our test code, and thus made them easier to understand and edit/improve as our `TShirt` class evolves. We also quickly understand what are tests do NOT need. `before` and `let` can easily lead to the testing [Obscure Test](http://xunitpatterns.com/Obscure%20Test.html), [Fragile Test](http://xunitpatterns.com/Fragile%20Test.html#Fragile%20Fixture), and Slow Tests](http://xunitpatterns.com/Slow%20Tests.html) testing smells. Avoiding `before` and `let` can help us avoid these smells.
+This is the best test file yet. Because we are not using `before` nor `let`, we don't need to search around our test examples to figure out what values are in use. We have reduced the cognitive burn of understanding our test code, and thus made them easier to understand and edit/improve as our `TShirt` class evolves. We also quickly understand what our tests do NOT require. 
 
-Nitro tests suffer greatly from issues of over using `before` and `let` helper methods. As do some learn.co labs. Understanding these method drawbacks puts you a fantastic position to help Nitro clean up its tests. To learn more about why `before` and `let` should be avoided, [read this](https://robots.thoughtbot.com/lets-not).
+`before` and `let` can easily lead to the testing [Obscure Test](http://xunitpatterns.com/Obscure%20Test.html), [Fragile Test](http://xunitpatterns.com/Fragile%20Test.html#Fragile%20Fixture), and [Slow Test](http://xunitpatterns.com/Slow%20Tests.html) coding smells. Avoiding `before` and `let` can help us avoid these problems.
+
+Nitro tests suffer greatly from issues of over using `before` and `let` helper methods. As do some learn.co labs. Understanding these method drawbacks puts you in a fantastic position to help Nitro clean up its tests. To learn more about why `before` and `let` should be avoided, [read this](https://robots.thoughtbot.com/lets-not).
 
 ## Example structure
 
@@ -299,19 +301,15 @@ Or:
 1. Exercise / Verify
 1. Teardown
 
-In a language like Ruby we can usually ignore Teardown. So lets just focus on Setup, Exercise, and Teardown. This is called a [Four-Phase Test and can be read about here](https://robots.thoughtbot.com/four-phase-test).
+This is called a [Four-Phase Test and can be read about here](https://robots.thoughtbot.com/four-phase-test).
 
-### Setup
+* Setup - Create testing fixtures and setup the system under test.
 
-This is where we create the testing fixtures and setup the system under test.
+* Exercise - Use and exercise the system under test.
 
-### Exercise
+* Verify - Verify the exercise step produced the expected behavior.
 
-Use and exercise the system under test.
-
-### Verify
-
-Verify that the exercise step produced the expected behavior.
+* Teardown - System under test is reset to its pre-setup state. (This is often handled internally by `rspec`.)
 
 ## Many Features - What is Important
 
