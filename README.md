@@ -1,10 +1,10 @@
 # RSpec Anatomy
 
-At this point, you are familiar with how spec test file looks. You have had to diagnosis them, drop breakpoints inside them, and even modified a test. Before we start writing our own `rspec` tests, let's pick apart the elements we have seen.
+At this point, you are familiar with how spec test files look. You have had to diagnosis them, drop breakpoints inside them, and perhaps even modify a test. Before we start writing our own `rspec` tests, let's pick apart the elements we have seen.
 
 ![RSpec Anatomy](https://raw.githubusercontent.com/powerhome/phrg-rspec-intro/master/rspec-anatomy.jpg?raw=true "RSpec Anatomy")
 
-RSpec is a big framework. It is a hosted Domain Specific Language (DSL) for testing. Even though it might not always look like it, RSpec code is Ruby. RSpec leverages the syntax and language features of Ruby to provide a specialized language for writing tests. Here we are going to intorduce the different parts of a RSpec test file. For this introduction we are going to look at an example:
+RSpec is a big framework. It is a hosted Domain Specific Language (DSL) for testing. Even though it might not always look like it, RSpec code is just plain Ruby. RSpec leverages the syntax and language features of Ruby to provide a specialized language for writing tests. For this intro, let's take a look at this example:
 
 ```ruby
 require "spec_helper"
@@ -36,23 +36,17 @@ RSpec.describe Person, type: :model do
 end
 ```
 
-Lets zoom in and take a look at some of the parts one by one.
-
-# Spec Helper
+## Spec Helper
 
 ```ruby
 require "spec_helper"
-
-...
 ```
 
-It is common to configure RSpec to suit the needs and preferences of the project. It is very common to see a spec start off with a line that requires a RSpec helper file. This will usually be `require "spec_helper"` or `require "rails_helper"`. To learn more about [RSpec configuration options read the RSpec documentation](https://relishapp.com/rspec/rspec-core/v/3-7/docs/configuration).
+It is common to configure RSpec to suit the needs and preferences of a project, and very common to see a spec start off with a line that requires a RSpec helper file that handles this need. This usually looks like `require "spec_helper"` or `require "rails_helper"`. To learn about [RSpec configuration options, check out the RSpec documentation](https://relishapp.com/rspec/rspec-core/v/3-7/docs/configuration).
 
-# Example Groups
+## Example Groups
 
 ```ruby
-...
-
 RSpec.describe Person, type: :model do
   describe "#first_name" do
     it "is the first name for the person" do
@@ -61,48 +55,38 @@ RSpec.describe Person, type: :model do
       expect(person.first_name).to eq("Expected First Name")
     end
   end
-
-  ...
 ```
 
-Lets zoom in the first line of this, and brake down what is going on.
+Lets zoom in the first line of this, and break down what's going on.
 
 ```ruby
 RSpec.describe Person, type: :model do
 ```
 
-This is a [Example Group definition](https://relishapp.com/rspec/rspec-core/v/3-7/docs/example-groups/basic-structure-describe-it). In RSpec our tests are called examples, and we group them together using an example group. The top most example group definition gets prefixed with `RSpec`. Here we are defining a example group that describes the `Person` object as the subject. You will often also see a descriptive string used as the value for the subject. We are passing [meta data](https://relishapp.com/rspec/rspec-core/v/3-7/docs/metadata) to the example group here. This lets us provide extra configuration for this example group. The meta data is not required, and addition meta data could be assigned. We pass a block to the example group. This block will contain examples and or more example groups. RSpec provides a `context` method that lets us do the same thing as `describe`. `context is an alias for `describe`.
+This is a [Example Group definition](https://relishapp.com/rspec/rspec-core/v/3-7/docs/example-groups/basic-structure-describe-it). In RSpec, our tests are called examples, and we group them together using an example group. The top most example group definition gets prefixed with `RSpec`. Here we are defining a example group that describes the `Person` object as the subject. You will often also see a descriptive string used as the value for the subject. We are passing [meta data](https://relishapp.com/rspec/rspec-core/v/3-7/docs/metadata) to the example group here. This lets us provide extra configuration for this example group. Meta data is not required, and we also could have passed additional meta data.
+
+We pass a block to the example group. This block will contain examples and also more example groups. RSpec provides a `context` method that lets us do the same thing as `describe`. They are aliases of one another.
+
+Since `describe` and `context` perform the exact same way, why have two methods that do the same thing? Well, our tests are semantic, or "relating to meaning in language". So how we may use the words "context" and "describe" in real life will influence how we group our tests.
 
 ```ruby
-...
-
 describe "#first_name" do
-
-...
 ```
 
-Here we see a describe with a string. This creates an example group for the `first_name` instance method on the Person object. It is convention to describe instance methods by prefixing the method name with a `#`. To describe a class method convention dictates prefixing with a `.`. There will be times when you are creating an example group that does not describe a method. In those causes the subject will be a descriptive string.
+Here we see a `describe` with a string. This creates an example group for the `first_name` instance method on the `Person` object. It is convention to describe instance methods by prefixing the method name with a `#`. To describe a class method convention dictates prefixing with a `.`. There will be times when you are creating an example group that does not describe a method. In those cases, the subject will be a descriptive string.
 
-# Examples
+## Examples
 
 ```ruby
-...
-
 it "is the first name for the person" do
-
-...
 ```
 
-Tests in RSpec are called examples. They are declared with an `it` method. Here we are passing in a string `"is the first name for the person"` to describe the expected behavior of the interaction under test. The `it` method takes a block. The block defines the code which is executed when RSpec 'runs the example'. This code exercise the and verifies expectation stated in the example's description
+Tests in RSpec are called examples. They are declared with an `it` method. Here we are passing in a string `"is the first name for the person"` to describe the expected behavior of the interaction under test. The `it` method takes a block. The block defines the code which is executed when RSpec 'runs the example'. This code exercises and verifies the expectation stated in it's description.
 
-# Expectations and Matchers
+## Expectations and Matchers
 
-```
-...
-
+```ruby
 expect(person.first_name).to eq("Expected First Name")
-
-...
 ```
 
 Expectations are the part of an example the verifies code has the expected behavior. Here was are saying we expect the value returned by sending the message `first_name` to the `person` object, to return an object that is equal to the string `"Expected First Name"`. There is a lot going on here, and the syntax used is hiding some of the details. Lets take a look at what this method is doing with the missing syntax add back in:
