@@ -140,7 +140,7 @@ Here is the [documention on using before & after hooks](https://relishapp.com/rs
 Let's use creating a valid T-Shirt as an example.
 
 ```ruby
-Rspec.desrcibe TShirt do
+Rspec.describe TShirt do
   before do
     @valid_attributes = { size: "XS" }
     @invalid_attributes = { size: "XXXXXXXXXS"}
@@ -166,7 +166,7 @@ While the snippet above looks appealing in some ways, there is actually a lot of
 
 
 ```ruby
-Rspec.desrcibe TShirt do
+Rspec.describe TShirt do
   let(:valid_attributes) do
     { size: "XS" }
   end
@@ -189,12 +189,18 @@ Rspec.desrcibe TShirt do
 end
 ```
 
-Here is a similar approach, but using `let`. `let` takes a symbol and a block of code, and it executes lazily. Meaning, only if you invoke the `let` by using its symbol like a method invocation will the code inside the `let` be run. This is a much better approach than `before`. The `"is valid with standard size"` test only creates `valid_attributes`, the `"is invalid with too small a size"` only creates `invalid_attributes`, and whatever tests in `"other stuff"` are not invoking this code at all. We also don't need to use instance variables. Wonderful!
+Here is a similar approach, but using `let`. `let` takes a symbol and a block of code, and executes lazily. Meaning, only if you invoke the `let` by using its symbol invocation will the code inside the `let` be run. This is a much better approach than `before`.
 
-But wait. What happens as our test file grows.
+In our spec file using `before`, the `@valid_attributes` and `@invalid_attributes` objects were created in both the `"is valid with standard size"` and `"is invalid with too small a size"` examples. That's 4 object creations.
+
+In our spec file using `let`, the `valid_attributes` object was only created for the `"is valid with standard size"` example. And the `invalid_attributes` object was only created for the `"is invalid with too small a size"` example. That's 2 object creations. (We also don't need to use instance variables. Which is wonderful!)
+
+Finally, when using `let`, whatever tests may be in the `"other stuff"` `context` will not create an `attributes` object unless that object is explicitly invoked. Using the `before` approach will continue to create these extra things. And as our test file grows, that means its execution time will grow longer, needlessly.
+
+But wait. What happens when our spec file starts using more and more `let`s?
 
 ```ruby
-Rspec.desrcibe TShirt do
+Rspec.describe TShirt do
   let(:valid_attributes) do
     { size: "XS" }
   end
