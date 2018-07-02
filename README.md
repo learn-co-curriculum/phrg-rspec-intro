@@ -89,7 +89,7 @@ Tests in RSpec are called examples. They are declared with an `it` method. Here 
 expect(person.first_name).to eq("Expected First Name")
 ```
 
-Expectations are the parts of an example that verifies code has the correct behavior. Here was are saying we expect the value returned by sending the message `first_name` to the `person` object, to return an object that is equal to the string `"Expected First Name"`. There is a lot going on here, and the syntax used is hiding some of the details. Lets take a look at what this method is doing with the missing syntax add back in:
+Expectations are the parts of an example that verifies code has the correct behavior. Here we are asserting that we expect the value returned by sending the message `first_name` to the `person` object to return an object that is equal to the string `"Expected First Name"`. There is a lot going on here, and the syntax used is hiding some of the details. Lets take a look at what this method is doing with the missing syntax add back in:
 
 ```ruby
 expect(person.first_name).to(eq("Expected First Name"))
