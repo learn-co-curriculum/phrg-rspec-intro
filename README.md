@@ -162,8 +162,9 @@ end
 
 The `before` method takes an optional argument of a symbol for how often the its code will run. `before(:each)` and `before(:all)` are two examples. In the snippet above, no argument is specified, so `before` defaults to `:each`, which means the code will run before every `it` block.
 
-While the snippet above looks appealing in some ways, there is actually a lot of extra code getting run. Not only will `@valid_attributes` and `@invalid_attributes` be assigned a value for both of our tests, but they will also be assigned for all the tests in the `"other stuff"` context. Those variable assignments are unnecessary as we keep adding tests, and so it will slow down our test run cycle. This is not a example use for `before`.
+While the snippet above looks appealing in some ways, there is actually a lot of extra code getting run. Not only will `@valid_attributes` and `@invalid_attributes` be assigned a value for both of our tests, but they will also be assigned for all the tests in the `"other stuff"` context. Those variable assignments are unnecessary as we keep adding tests, and so it will slow down our test run cycle. This is not a great use for the `before` helper method. 
 
+Let's try writing the same tests with `let`:
 
 ```ruby
 Rspec.describe TShirt do
@@ -189,7 +190,7 @@ Rspec.describe TShirt do
 end
 ```
 
-Here is a similar approach, but using `let`. `let` takes a symbol and a block of code, and executes lazily. Meaning, only if you invoke the `let` by using its symbol invocation will the code inside the `let` be run. This is a much better approach than `before`.
+`let` takes a symbol and a block of code, and executes lazily. Meaning, only if you invoke the `let` by using its symbol invocation will the code inside the `let` be run. This is a much better approach than `before`.
 
 In our spec file using `before`, the `@valid_attributes` and `@invalid_attributes` objects were created in both the `"is valid with standard size"` and `"is invalid with too small a size"` examples. That's 4 object creations.
 
