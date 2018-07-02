@@ -137,7 +137,7 @@ Another convention found in many test files is the use of `before` and `let` blo
 
 Here is the [documention on using before & after hooks](https://relishapp.com/rspec/rspec-core/v/3-7/docs/hooks/before-and-after-hooks). And here are the [docs on using `let` and `let!`](https://relishapp.com/rspec/rspec-core/docs/helper-methods/let-and-let).
 
-Let's use creating a valid T-Shirt as an example.
+Let's use creating a valid T-Shirt as an example. (Remember that `context` is an alias for `describe`.)
 
 ```ruby
 Rspec.describe TShirt do
