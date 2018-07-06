@@ -57,13 +57,13 @@ RSpec.describe Person, type: :model do
   end
 ```
 
-Lets zoom in the first line of this, and break down what's going on.
+Let's zoom in the first line of this, and break down what's going on.
 
 ```ruby
 RSpec.describe Person, type: :model do
 ```
 
-This is a [Example Group definition](https://relishapp.com/rspec/rspec-core/v/3-7/docs/example-groups/basic-structure-describe-it). In RSpec, our tests are called examples, and we group them together using an example group. The top most example group definition gets prefixed with `RSpec`. Here we are defining a example group that describes the `Person` object as the subject. You will often also see a descriptive string used as the value for the subject. We are passing [meta data](https://relishapp.com/rspec/rspec-core/v/3-7/docs/metadata) to the example group here. This lets us provide extra configuration for this example group. Meta data is not required, and we also could have passed additional meta data.
+This is an [Example Group definition](https://relishapp.com/rspec/rspec-core/v/3-7/docs/example-groups/basic-structure-describe-it). In RSpec, our tests are called examples, and we group them together using an example group. The top most example group definition gets prefixed with `RSpec`. Here we are defining an example group that describes the `Person` object as the subject. You will often also see a descriptive string used as the value for the subject. We are passing [meta data](https://relishapp.com/rspec/rspec-core/v/3-7/docs/metadata) to the example group here. This lets us provide extra configuration for this example group. Meta data is not required, and we also could have passed additional meta data.
 
 We pass a block to the example group. This block will contain examples and also more example groups. RSpec provides a `context` method that lets us do the same thing as `describe`. They are aliases of one another.
 
@@ -81,7 +81,7 @@ Here we see a `describe` with a string. This creates an example group for the `f
 it "is the first name for the person" do
 ```
 
-Tests in RSpec are called examples. They are declared with an `it` method. Here we are passing in a string `"is the first name for the person"` to describe the expected behavior of the interaction under test. The `it` method takes a block. The block defines the code which is executed when RSpec 'runs the example'. This code exercises and verifies the expectation stated in it's description.
+Tests in RSpec are called examples. They are declared with an `it` method. Here we are passing in a string `"is the first name for the person"` to describe the expected behavior of the interaction under test. The `it` method takes a block. The block defines the code which is executed when RSpec 'runs the example'. This code exercises and verifies the expectation stated in its description.
 
 ## Expectations and Matchers
 
@@ -111,7 +111,7 @@ matcher = eq("Expected First Name")
 expectation_object.to(matcher)
 ```
 
-You can see we have a object being created with the `expect` method. This takes a value, and lets us then make expectations on the value it contains. Next we define a matcher. The matcher is sent to the `expectation_object` via the `to` method, and the `expectation_object` checks if the matcher holds true. If it does, the expectation passes. If it doesn't, the test fails. You can read more about the built in [expectation and matching library of RSpec here](https://relishapp.com/rspec/rspec-expectations/docs).
+You can see we have an object being created with the `expect` method. This takes a value, and lets us then make expectations on the value it contains. Next we define a matcher. The matcher is sent to the `expectation_object` via the `to` method, and the `expectation_object` checks if the matcher holds true. If it does, the expectation passes. If it doesn't, the test fails. You can read more about the built in [expectation and matching library of RSpec here](https://relishapp.com/rspec/rspec-expectations/docs).
 
 ## File Naming Conventions
 
@@ -133,7 +133,7 @@ Person
 
 ## Before vs Let vs Neither
 
-Another convention found in many test files is the use of `before` and `let` blocks to set up test state. Since these are used quite a lot in the learn.co curriculum, lets understand their differences, benefits, and drawbacks.
+Another convention found in many test files is the use of `before` and `let` blocks to set up test state. Since these are used quite a lot in the learn.co curriculum, let's understand their differences, benefits, and drawbacks.
 
 Here is the [documention on using before & after hooks](https://relishapp.com/rspec/rspec-core/v/3-7/docs/hooks/before-and-after-hooks). And here are the [docs on using `let` and `let!`](https://relishapp.com/rspec/rspec-core/docs/helper-methods/let-and-let).
 
@@ -162,7 +162,7 @@ end
 
 The `before` method takes an optional argument of a symbol for how often the its code will run. `before(:each)` and `before(:all)` are two examples. In the snippet above, no argument is specified, so `before` defaults to `:each`, which means the code will run before every `it` block.
 
-While the snippet above looks appealing in some ways, there is actually a lot of extra code getting run. Not only will `@valid_attributes` and `@invalid_attributes` be assigned a value for both of our tests, but they will also be assigned for all the tests in the `"other stuff"` context. Those variable assignments are unnecessary as we keep adding tests, and so it will slow down our test run cycle. This is not a great use for the `before` helper method. 
+While the snippet above looks appealing in some ways, there is actually a lot of extra code getting run. Not only will `@valid_attributes` and `@invalid_attributes` be assigned a value for both of our tests, but they will also be assigned for all the tests in the `"other stuff"` context. Those variable assignments are unnecessary as we keep adding tests, and so it will slow down our test run cycle. This is not a great use for the `before` helper method.
 
 Let's try writing the same tests with `let`:
 
@@ -287,7 +287,7 @@ Rspec.describe TShirt do
 end
 ```
 
-This is the best test file yet. Because we are not using `before` nor `let`, we don't need to search around our test examples to figure out what values are in use. We have reduced the cognitive burn of understanding our test code, and thus made them easier to understand and edit/improve as our `TShirt` class evolves. We also quickly understand what our tests do NOT require. 
+This is the best test file yet. Because we are not using `before` nor `let`, we don't need to search around our test examples to figure out what values are in use. We have reduced the cognitive burn of understanding our test code, and thus made them easier to understand and edit/improve as our `TShirt` class evolves. We also quickly understand what our tests do NOT require.
 
 `before` and `let` can easily lead to the testing [Obscure Test](http://xunitpatterns.com/Obscure%20Test.html), [Fragile Test](http://xunitpatterns.com/Fragile%20Test.html#Fragile%20Fixture), and [Slow Test](http://xunitpatterns.com/Slow%20Tests.html) coding smells. Avoiding `before` and `let` can help us avoid these problems.
 
@@ -328,6 +328,6 @@ As you gain experience, you will form your own opinions on what kind of tests pr
 * Am I coding only what is necessary for my test?
 * Does my test enforce expectations that must stay intact?
 
-Many developers have the mind set that simply having any tests in their project is a step in the right direction. And they are generally right! But, a poorly written test suite may be slow, and/or brittle, and it might not verify everything it implies. 
+Many developers have the mind set that simply having any tests in their project is a step in the right direction. And they are generally right! But, a poorly written test suite may be slow, and/or brittle, and it might not verify everything it implies.
 
 The best way to learn about testing is to jump in and start creating your own spec files. Use examples you've seen in the past, and the guidance of your fellow Power developers as you continue to learn.
