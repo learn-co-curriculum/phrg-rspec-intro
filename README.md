@@ -107,7 +107,7 @@ expectation_object = expect(returned_first_name)
 # Define a matcher for comparing the returned_first_name value
 matcher = eq("Expected First Name")
 
-# Put it all together, and make the expectation
+# Put it all together
 expectation_object.to(matcher)
 ```
 
@@ -115,7 +115,7 @@ You can see we have an object being created with the `expect` method. This takes
 
 ## File Naming Conventions
 
-It is best to end a spec file with `_spec.rb`, and to place it under the `spec` directory. This is a convention of RSpec, and how it comes configured out of the box. There are some other conventions related to naming and location that are good to keep in mind. If the above `Person` was a file in a Ruby Gem type project and lived at `lib/gem_name/person.rb`, a good place to put this `Person` spec would be `spec/person_spec.rb`. If this was a Rails app, and the `Person` was a file that lived in `app/models/person.rb`, then a good place for this would be `spec/models/person_spec.rb`.
+It is best to end a spec file with `_spec.rb`, and to place it under the `spec` directory. This is a convention of RSpec, and how it comes configured out of the box. There are some other conventions related to naming and location that are good to keep in mind. If the above `Person` was a file in a Ruby gem and lived at `lib/gem_name/person.rb`, a good place to put this `Person` spec would be `spec/person_spec.rb`. If this was a Rails app, and the `Person` was a file that lived in `app/models/person.rb`, then a good place for this would be `spec/models/person_spec.rb`.
 
 ## RSpec Output
 
@@ -133,9 +133,11 @@ Person
 
 ## Before vs Let vs Neither
 
-Another convention found in many test files is the use of `before` and `let` blocks to set up test state. Since these are used quite a lot in the learn.co curriculum, let's understand their differences, benefits, and drawbacks.
+Another convention found in many test files is the use of `before` and `let`. `before` and `let` blocks are used to set up test state. Since these occur quite often in the learn.co curriculum, let's understand their differences, benefits, and drawbacks.
 
-Here is the [documention on using before & after hooks](https://relishapp.com/rspec/rspec-core/v/3-7/docs/hooks/before-and-after-hooks). And here are the [docs on using `let` and `let!`](https://relishapp.com/rspec/rspec-core/docs/helper-methods/let-and-let).
+Here is the [documention on using before & after hooks](https://relishapp.com/rspec/rspec-core/v/3-8/docs/hooks/before-and-after-hooks). And here are the [docs on using `let` and `let!`](https://relishapp.com/rspec/rspec-core/docs/helper-methods/let-and-let). Stop now and review them.
+
+---
 
 Let's use creating a valid T-Shirt as an example. (Remember that `context` is an alias for `describe`.)
 
@@ -160,7 +162,7 @@ Rspec.describe TShirt do
 end
 ```
 
-The `before` method takes an optional argument of a symbol for how often the its code will run. `before(:each)` and `before(:all)` are two examples. In the snippet above, no argument is specified, so `before` defaults to `:each`, which means the code will run before every `it` block.
+The `before` method takes an optional argument of a symbol for how often its code will run. `before(:each)` and `before(:all)` are two examples. In the snippet above, no argument is specified, so `before` defaults to `:each`, which means the code will run before every `it` block.
 
 While the snippet above looks appealing in some ways, there is actually a lot of extra code getting run. Not only will `@valid_attributes` and `@invalid_attributes` be assigned a value for both of our tests, but they will also be assigned for all the tests in the `"other stuff"` context. Those variable assignments are unnecessary as we keep adding tests, and so it will slow down our test run cycle. This is not a great use for the `before` helper method.
 
@@ -190,13 +192,13 @@ Rspec.describe TShirt do
 end
 ```
 
-`let` takes a symbol and a block of code, and executes lazily. Meaning, only if you invoke the `let` by using its symbol invocation will the code inside the `let` be run. This is a much better approach than `before`.
+`let` takes a symbol and a block of code, and executes lazily. Meaning, only if you invoke `let` by using its symbol invocation will the code inside the `let` be run. This is a much better approach than `before`.
 
 In our spec file using `before`, the `@valid_attributes` and `@invalid_attributes` objects were created in both the `"is valid with standard size"` and `"is invalid with too small a size"` examples. That's 4 object creations.
 
-In our spec file using `let`, the `valid_attributes` object was only created for the `"is valid with standard size"` example. And the `invalid_attributes` object was only created for the `"is invalid with too small a size"` example. That's 2 object creations. (We also don't need to use instance variables. Which is wonderful!)
+In our spec file using `let`, the `valid_attributes` object was only created for the `"is valid with standard size"` example. And the `invalid_attributes` object was only created for the `"is invalid with too small a size"` example. That's 2 object creations. (We also don't need to use instance variables. Which is great!)
 
-Finally, when using `let`, whatever tests may be in the `"other stuff"` `context` will not create an `attributes` object unless that object is explicitly invoked. Using the `before` approach will continue to create these extra things. And as our test file grows, that means its execution time will grow longer, needlessly.
+Finally, when using `let`, any tests in the `"other stuff"` `context` will not create an `attributes` object unless that it is explicitly invoked. Using the `before` approach will continue to create these extra things. And as our test file grows, that means its execution time will grow longer, needlessly.
 
 But wait. What happens when our spec file starts using more and more `let`s?
 
@@ -243,18 +245,17 @@ Rspec.describe TShirt do
     expect(shirt.rip!).to eq("Oh no! I'm torn!")
   end
 
-  # yep... many many more tests
+  # many many more tests
 end
 ```
 
-Hmmmm. The last snippet is a very realistic example of many test files in the Ruby universe. The `let`s inside the `"color"` context use identical symbols to define their code. The tests below it use the first `valid` and `invalid` `attributes` definition they find, so that means the ones in the "color" scope.
+Hmmmm. The last snippet is a realistic example of many test files in the Ruby universe. The `let`s inside the `"color"` context use identical symbols to define their code. The tests below it use the first `valid` and `invalid` `attributes` definition they find, so that means the ones in the "color" scope.
 
-In this very simple example, this may seem straight ahead. However, most real world test files are much larger and much more complex. They may juggle quite a number of scenarios to test `TShirt`. And what about that "rip" test? What attributes is it using? Why do I have to scan the entire content of the test file to write a test for a ripped TShirt?
+In this very simple example, this may seem straight ahead. However, most real world test files are much larger and more complex. They may juggle a number of scenarios to test `TShirt`. And what about that "rip" test? What attributes is it using? *I should not have to scan the entire content of the test file to write a test for a ripped TShirt.*
 
 ### The better alternative
 
 Let's not use these `rspec` helper methods and give this another try.
-
 
 ```ruby
 Rspec.describe TShirt do
@@ -295,7 +296,7 @@ Nitro tests suffer greatly from issues of over using `before` and `let` helper m
 
 ## Example structure
 
-When we write examples, we should try to structure the example so it tells a story. Good testing stories take this form:
+When we write examples, we should try to structure the example to tell a story. Good testing stories take this form:
 
 1. Setup
 1. Exercise
