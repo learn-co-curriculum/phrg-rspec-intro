@@ -331,3 +331,7 @@ As you gain experience, you will form your own opinions on what kind of tests pr
 Many developers have the mind set that simply having any tests in their project is a step in the right direction. And they are generally right! But, a poorly written test suite may be slow, and/or brittle, and it might not verify everything it implies.
 
 The best way to learn about testing is to jump in and start creating your own spec files. Use examples you've seen in the past, and the guidance of your fellow Power developers as you continue to learn.
+
+## Does this need an update?
+
+Please open a [pull-request](https://github.com/powerhome/phrg-rspec-intro/pulls). Provide a detailed description that explains the change you are proposing. Then "@" mention your instructor on the pull-request, and send them a link via Connect.
